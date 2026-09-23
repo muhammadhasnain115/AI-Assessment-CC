@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareCloud Medical Center | Patient Registration Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-light: #e0f2fe;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --border-focus: #38bdf8;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-subtle: #94a3b8;
+      --success-bg: #ecfdf5;
+      --success-text: #047857;
+      --danger-bg: #fef2f2;
+      --danger-text: #b91c1c;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 4rem;
+    }
+
+    /* Header */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: var(--shadow-sm);
+    }
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+    }
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      background: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid #a7f3d0;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1280px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .metric-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .metric-value {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 0.25rem;
+      letter-spacing: -0.02em;
+    }
+    .metric-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Search Bar */
+    .search-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .search-form {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-subtle);
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      padding: 0.7rem 2.5rem 0.7rem 2.6rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      outline: none;
+      transition: all 0.15s ease;
+    }
+    .search-input:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    }
+    .search-clear {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-subtle);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: none;
+      line-height: 1;
+      padding: 0.2rem;
+    }
+    .search-clear:hover { color: var(--text); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.65rem 1.1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: inherit;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+    .btn-outline {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn-outline:hover {
+      background: var(--bg);
+      border-color: #cbd5e1;
+    }
+    .btn-sm {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    /* Table Container */
+    .table-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .table-header-meta {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+    }
+    .table-header-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .table-count-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.875rem;
+    }
+    th {
+      background: #f8fafc;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+
+    /* Patient Row Elements */
+    .patient-col {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .patient-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .patient-name {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.925rem;
+    }
+    .patient-phone {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .tag-blue { background: #e0f2fe; color: #0369a1; }
+    .tag-gray { background: #f1f5f9; color: #475569; }
+
+    .actions-col {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .action-btn {
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all 0.15s ease;
+    }
+    .action-btn:hover {
+      background: var(--bg);
+      color: var(--text);
+      border-color: #cbd5e1;
+    }
+    .action-btn.del:hover {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border-color: #fca5a5;
+    }
+
+    /* Pagination Footer */
+    .pagination-bar {
+      padding: 0.85rem 1.25rem;
+      background: #fafafa;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .pagination-info {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .pagination-info strong { color: var(--text); }
+    .pagination-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .page-btn {
+      padding: 0.4rem 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      font-size: 0.825rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .page-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: #cbd5e1;
+    }
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .page-indicator {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      padding: 0 0.5rem;
+      font-weight: 500;
+    }
+
+    /* Detail Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 1rem;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+    }
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.25rem;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-body {
+      padding: 1.5rem;
+    }
+    .modal-section {
+      margin-bottom: 1.5rem;
+    }
+    .modal-section:last-child { margin-bottom: 0; }
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem 1.25rem;
+    }
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .detail-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+    .detail-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      word-break: break-word;
+    }
+    .detail-value.mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+    }
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      background: #fafafa;
+      border-bottom-left-radius: var(--radius-lg);
+      border-bottom-right-radius: var(--radius-lg);
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3.5rem 1.5rem;
+      color: var(--text-muted);
+    }
+    .empty-state h4 {
+      font-size: 1.05rem;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Clinical Header -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">CC</div>
+        <div>
+          <h1 class="brand-title">CareCloud Medical Center</h1>
+          <p class="brand-subtitle">Front Desk Patient Intake & Directory</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="status-badge"><span class="status-dot"></span> Intake System Online</span>
+        <button id="btn-refresh" class="btn btn-outline btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- KPI Summary Bar (Clean 2-card layout) -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Total Patients</div>
+        <div class="metric-value" id="metric-total">0</div>
+        <div class="metric-note">Registered in CareCloud registry</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Active Records</div>
+        <div class="metric-value" id="metric-active" style="color: #047857;">0</div>
+        <div class="metric-note">Excludes archived or removed profiles</div>
+      </div>
+    </div>
+
+    <!-- Search Form (Name Search Only) -->
+    <div class="search-card">
+      <form id="search-form" class="search-form">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search patients by name (e.g. Jane, Hernandez)..." autocomplete="off">
+          <button type="button" id="search-clear" class="search-clear" title="Clear search">✕</button>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="button" id="btn-reset" class="btn btn-outline" style="display: none;">Reset</button>
+      </form>
+    </div>
+
+    <!-- Patients Table -->
+    <div class="table-wrapper">
+      <div class="table-header-meta">
+        <span class="table-header-title">Registered Patients</span>
+        <span id="table-summary" class="table-count-label">Loading records...</span>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Date of Birth / Age</th>
+              <th>Sex</th>
+              <th>Phone</th>
+              <th>Location</th>
+              <th>Insurance</th>
+              <th>Registered</th>
+              <th style="text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="patient-table-body">
+            <tr>
+              <td colspan="8" class="empty-state">Loading patient records...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Controls (10 patients per page) -->
+      <div class="pagination-bar">
+        <div class="pagination-info" id="pagination-info">
+          Showing <strong>0</strong> to <strong>0</strong> of <strong>0</strong> patients
+        </div>
+        <div class="pagination-nav">
+          <button id="btn-prev-page" class="page-btn" disabled>
+            ← Previous
+          </button>
+          <span id="page-display" class="page-indicator">Page 1 of 1</span>
+          <button id="btn-next-page" class="page-btn" disabled>
+            Next →
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Patient Chart Modal -->
+  <div id="patient-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-patient-name">Patient Chart</h3>
+          <span style="font-size: 0.78rem; color: var(--text-muted);">CareCloud Patient Record</span>
+        </div>
+        <button onclick="closeModal()" class="modal-close" title="Close modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Demographics -->
+        <div class="modal-section">
+          <div class="section-title">Patient Demographics</div>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <span class="detail-label">Full Legal Name</span>
+              <span class="detail-value" id="m-full-name">-</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Date of Birth & Age</span>
+              <span class="detail-value" id="m-dob-age">-</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Sex</span>
+              <span class="detail-value" id="m-sex">-</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Preferred Language</span>
+              <span class="detail-value" id="m-language">English</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact & Address -->
+        <div class="modal-section">
+          <div class="section-title">Contact & Address</div>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <span class="detail-label">Phone Number</span>
+              <span class="detail-value" id="m-phone">-</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Email Address</span>
+              <span class="detail-value" id="m-email">Not provided</span>
+            </div>
+            <div class="detail-item" style="grid-column: span 2;">
+              <span class="detail-label">Street Address</span>
+              <span class="detail-value" id="m-address">-</span>
+            </div>
+            <div class="detail-item" style="grid-column: span 2;">
+              <span class="detail-label">City, State ZIP</span>
+              <span class="detail-value" id="m-city-state-zip">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insurance -->
+        <div class="modal-section">
+          <div class="section-title">Insurance Coverage</div>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <span class="detail-label">Insurance Provider</span>
+              <span class="detail-value" id="m-insurance">Self-Pay</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Member / Policy ID</span>
+              <span class="detail-value" id="m-insurance-id">None</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Emergency Contact -->
+        <div class="modal-section">
+          <div class="section-title">Emergency Contact</div>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <span class="detail-label">Contact Person</span>
+              <span class="detail-value" id="m-emergency-name">Not provided</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Contact Phone</span>
+              <span class="detail-value" id="m-emergency-phone">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metadata -->
+        <div class="modal-section">
+          <div class="section-title">System Record</div>
+          <div class="detail-grid">
+            <div class="detail-item" style="grid-column: span 2;">
+              <span class="detail-label">Patient Record UUID</span>
+              <span class="detail-value mono" id="m-uuid">-</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Intake Registered</span>
+              <span class="detail-value" id="m-created">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button onclick="closeModal()" class="btn btn-outline">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = window.location.origin;
+    const PAGE_LIMIT = 10;
+    let currentPage = 1;
+    let totalPatients = 0;
+    let currentSearchTerm = "";
+
+    async function fetchPatients() {
+      const tbody = document.getElementById("patient-table-body");
+      const summaryLabel = document.getElementById("table-summary");
+      tbody.innerHTML = `<tr><td colspan="8" class="empty-state">Loading patient records...</td></tr>`;
+
+      try {
+        const url = new URL(`${API}/patients`);
+        url.searchParams.set("page", currentPage);
+        url.searchParams.set("limit", PAGE_LIMIT);
+
+        if (currentSearchTerm.trim()) {
+          url.searchParams.set("search", currentSearchTerm.trim());
+        }
+
+        const res = await fetch(url);
+        const json = await res.json();
+        const patients = json.data || [];
+
+        const headerCount = res.headers.get("X-Total-Count");
+        totalPatients = json.total !== undefined ? json.total : (headerCount ? parseInt(headerCount, 10) : patients.length);
+
+        updateMetrics(totalPatients);
+
+        if (patients.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" class="empty-state">
+                <h4>No patients found</h4>
+                <p>${currentSearchTerm ? `No records matched "${escapeHtml(currentSearchTerm)}".` : "No registered patients in the database yet."}</p>
+              </td>
+            </tr>
+          `;
+          summaryLabel.textContent = "0 patients";
+          updatePaginationUI(0, 0, 0);
+          return;
+        }
+
+        summaryLabel.textContent = `${totalPatients} patient${totalPatients === 1 ? '' : 's'} registered`;
+
+        tbody.innerHTML = patients.map(p => {
+          const initials = `${(p.first_name || "")[0] || ""}${(p.last_name || "")[0] || ""}`.toUpperCase();
+          const age = calculateAge(p.date_of_birth);
+          const formattedDob = formatDate(p.date_of_birth);
+          const sexTag = p.sex === 'Male' ? 'tag-blue' : (p.sex === 'Female' ? 'tag-blue' : 'tag-gray');
+          const address = `${p.city || ""}, ${p.state || ""} ${p.zip_code || ""}`;
+
+          return `
+            <tr>
+              <td>
+                <div class="patient-col">
+                  <div class="patient-avatar">${initials}</div>
+                  <div>
+                    <div class="patient-name">${escapeHtml(p.first_name)} ${escapeHtml(p.last_name)}</div>
+                    <div class="patient-phone">${formatPhone(p.phone_number)}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div>${formattedDob}</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">${age}</div>
+              </td>
+              <td><span class="tag ${sexTag}">${escapeHtml(p.sex || "Unknown")}</span></td>
+              <td>${formatPhone(p.phone_number)}</td>
+              <td>${escapeHtml(address)}</td>
+              <td>
+                <div>${escapeHtml(p.insurance_provider || "Self-Pay")}</div>
+                ${p.insurance_member_id ? `<div style="font-size: 0.75rem; color: var(--text-muted);">ID: ${escapeHtml(p.insurance_member_id)}</div>` : ""}
+              </td>
+              <td style="font-size: 0.8rem; color: var(--text-muted);">${formatCreatedDate(p.created_at)}</td>
+              <td style="text-align: right;">
+                <div class="actions-col" style="justify-content: flex-end;">
+                  <button class="action-btn" onclick="openPatientModal('${p.patient_id}')">
+                    View
+                  </button>
+                  <button class="action-btn del" onclick="archivePatient('${p.patient_id}', '${escapeHtml(p.first_name)} ${escapeHtml(p.last_name)}')">
+                    Archive
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join("");
+
+        const startItem = totalPatients === 0 ? 0 : (currentPage - 1) * PAGE_LIMIT + 1;
+        const endItem = Math.min(currentPage * PAGE_LIMIT, totalPatients);
+        updatePaginationUI(startItem, endItem, totalPatients);
+
+      } catch (err) {
+        console.error("Failed to fetch patients:", err);
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="empty-state" style="color: var(--danger-text);">
+              Failed to connect to the backend server. Please verify network or service status.
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    function updatePaginationUI(start, end, total) {
+      const info = document.getElementById("pagination-info");
+      const pageDisplay = document.getElementById("page-display");
+      const btnPrev = document.getElementById("btn-prev-page");
+      const btnNext = document.getElementById("btn-next-page");
+
+      info.innerHTML = `Showing <strong>${start}</strong> to <strong>${end}</strong> of <strong>${total}</strong> patients`;
+
+      const totalPages = Math.max(1, Math.ceil(total / PAGE_LIMIT));
+      pageDisplay.textContent = `Page ${currentPage} of ${totalPages}`;
+
+      btnPrev.disabled = currentPage <= 1;
+      btnNext.disabled = currentPage >= totalPages;
+    }
+
+    async function updateMetrics(total) {
+      document.getElementById("metric-total").textContent = total;
+      document.getElementById("metric-active").textContent = total;
+    }
+
+    async function openPatientModal(id) {
+      try {
+        const res = await fetch(`${API}/patients/${id}`);
+        const { data } = await res.json();
+        if (!data) return;
+
+        document.getElementById("modal-patient-name").textContent = `${data.first_name} ${data.last_name}`;
+        document.getElementById("m-full-name").textContent = `${data.first_name} ${data.last_name}`;
+        document.getElementById("m-dob-age").textContent = `${formatDate(data.date_of_birth)} (${calculateAge(data.date_of_birth)})`;
+        document.getElementById("m-sex").textContent = data.sex || "Unknown";
+        document.getElementById("m-language").textContent = data.preferred_language || "English";
+        document.getElementById("m-phone").textContent = formatPhone(data.phone_number);
+        document.getElementById("m-email").textContent = data.email || "Not provided";
+        document.getElementById("m-address").textContent = `${data.address_line_1 || ""} ${data.address_line_2 || ""}`.trim() || "-";
+        document.getElementById("m-city-state-zip").textContent = `${data.city || ""}, ${data.state || ""} ${data.zip_code || ""}`;
+        document.getElementById("m-insurance").textContent = data.insurance_provider || "Self-Pay";
+        document.getElementById("m-insurance-id").textContent = data.insurance_member_id || "None";
+        document.getElementById("m-emergency-name").textContent = data.emergency_contact_name || "Not provided";
+        document.getElementById("m-emergency-phone").textContent = data.emergency_contact_phone ? formatPhone(data.emergency_contact_phone) : "None";
+        document.getElementById("m-uuid").textContent = data.patient_id;
+        document.getElementById("m-created").textContent = formatCreatedDate(data.created_at);
+
+        document.getElementById("patient-modal").classList.add("open");
+      } catch (err) {
+        alert("Failed to load patient chart.");
+      }
+    }
+
+    function closeModal() {
+      document.getElementById("patient-modal").classList.remove("open");
+    }
+
+    async function archivePatient(id, name) {
+      if (!confirm(`Are you sure you want to archive patient record: ${name}?`)) return;
+      try {
+        const res = await fetch(`${API}/patients/${id}`, { method: "DELETE" });
+        if (res.ok) {
+          fetchPatients();
+        } else {
+          alert("Could not archive patient record.");
+        }
+      } catch (err) {
+        alert("Server error archiving record.");
+      }
+    }
+
+    function formatPhone(p) {
+      if (!p) return "-";
+      const clean = p.replace(/\D/g, "");
+      if (clean.length === 10) {
+        return `(${clean.slice(0,3)}) ${clean.slice(3,6)}-${clean.slice(6)}`;
+      }
+      return p;
+    }
+
+    function formatDate(d) {
+      if (!d) return "-";
+      try {
+        const [y, m, day] = d.split("-");
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        return `${months[parseInt(m, 10) - 1]} ${parseInt(day, 10)}, ${y}`;
+      } catch {
+        return d;
+      }
+    }
+
+    function calculateAge(dobStr) {
+      if (!dobStr) return "";
+      try {
+        const dob = new Date(dobStr);
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+          age--;
+        }
+        return `${age} yrs`;
+      } catch {
+        return "";
+      }
+    }
+
+    function formatCreatedDate(iso) {
+      if (!iso) return "-";
+      try {
+        const d = new Date(iso);
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      } catch {
+        return iso.slice(0, 10);
+      }
+    }
+
+    function escapeHtml(s) {
+      if (!s) return "";
+      return String(s).replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+    }
+
+    const searchInput = document.getElementById("search-input");
+    const searchClear = document.getElementById("search-clear");
+    const btnReset = document.getElementById("btn-reset");
+
+    searchInput.addEventListener("input", () => {
+      searchClear.style.display = searchInput.value ? "block" : "none";
+    });
+
+    searchClear.addEventListener("click", () => {
+      searchInput.value = "";
+      searchClear.style.display = "none";
+      btnReset.style.display = "none";
+      currentSearchTerm = "";
+      currentPage = 1;
+      fetchPatients();
+    });
+
+    document.getElementById("search-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      currentSearchTerm = searchInput.value;
+      currentPage = 1;
+      btnReset.style.display = currentSearchTerm ? "inline-flex" : "none";
+      fetchPatients();
+    });
+
+    btnReset.addEventListener("click", () => {
+      searchInput.value = "";
+      searchClear.style.display = "none";
+      btnReset.style.display = "none";
+      currentSearchTerm = "";
+      currentPage = 1;
+      fetchPatients();
+    });
+
+    document.getElementById("btn-refresh").addEventListener("click", () => {
+      fetchPatients();
+    });
+
+    document.getElementById("btn-prev-page").addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage--;
+        fetchPatients();
+      }
+    });
+
+    document.getElementById("btn-next-page").addEventListener("click", () => {
+      const totalPages = Math.ceil(totalPatients / PAGE_LIMIT);
+      if (currentPage < totalPages) {
+        currentPage++;
+        fetchPatients();
+      }
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    document.getElementById("patient-modal").addEventListener("click", (e) => {
+      if (e.target.id === "patient-modal") closeModal();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchPatients();
+    });
+  </script>
+</body>
+</html>

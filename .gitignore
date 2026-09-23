@@ -1,0 +1,32 @@
+# Environment variables & secrets (CRITICAL)
+.env
+.env.local
+.env.*.local
+
+# Python virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & temp files
+*.log
+scratch/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+# PDF files & assessment prompts
+*.pdf
+Voice AI Agent Coding Challenge ..pdf
